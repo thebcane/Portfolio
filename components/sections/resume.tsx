@@ -19,15 +19,15 @@ export function ResumeSection() {
         objectPosition="center 30%"
       />
 
-      {/* Education */}
+      {/* Experience */}
       <section>
         <div className="flex items-center gap-3 mb-8">
-          <GraduationCap className="w-8 h-8 text-accent" />
-          <h2 className="text-3xl font-bold">Education</h2>
+          <Briefcase className="w-8 h-8 text-accent" />
+          <h2 className="text-3xl font-bold">Experience</h2>
         </div>
 
         <div className="space-y-6 relative before:absolute before:left-[11px] before:top-[12px] before:bottom-[12px] before:w-[2px] before:bg-border">
-          {resumeData.education.map((item, index) => (
+          {resumeData.experience.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -20 }}
@@ -50,15 +50,15 @@ export function ResumeSection() {
         </div>
       </section>
 
-      {/* Experience */}
+      {/* Education */}
       <section>
         <div className="flex items-center gap-3 mb-8">
-          <Briefcase className="w-8 h-8 text-accent" />
-          <h2 className="text-3xl font-bold">Experience</h2>
+          <GraduationCap className="w-8 h-8 text-accent" />
+          <h2 className="text-3xl font-bold">Education</h2>
         </div>
 
         <div className="space-y-6 relative before:absolute before:left-[11px] before:top-[12px] before:bottom-[12px] before:w-[2px] before:bg-border">
-          {resumeData.experience.map((item, index) => (
+          {resumeData.education.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, x: -20 }}

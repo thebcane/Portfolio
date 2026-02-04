@@ -66,7 +66,15 @@ export interface VideoCardData {
   category: string;
   tags?: string[];
   thumbnail: string;
-  videoEmbed: string; // YouTube, Vimeo, or other embed URL
+  videoEmbed?: string; // YouTube, Vimeo, or other embed URL (optional if using videoFile)
+
+  // NEW: For local video files with audio stems
+  videoFile?: string;           // Path to local video file (e.g., "/videos/The VVitch - Video Preview.mp4")
+  audioStems?: {                // Array of audio stem options
+    label: string;              // Display name: "Full Scene", "Foley+Amb", "Music"
+    audioPath: string;          // Path to audio file: "/audio/The VVitch - Full Scene.mp3"
+  }[];
+
   awards?: string[];
   role?: string[];
   technicalDetails?: {
@@ -454,7 +462,7 @@ export const featuredData = {
       technicalDetails: {
         format: 'Game Cinematic Re-score',
         duration: '4 minutes',
-        client: 'Personal Project',
+        client: 'Case Study',
         year: '2024',
       },
       links: [
@@ -467,9 +475,17 @@ export const featuredData = {
       title: 'The VVitch - Audio Production',
       description: 'An atmospheric audio redesign of Robert Eggers\' critically acclaimed folk horror masterpiece. The VVitch (2015) follows a Puritan family in 1630s New England as they encounter forces of evil in the woods beyond their remote farm. Known for its historical authenticity and unsettling atmosphere, the film explores themes of religious paranoia, isolation, and the unknown. This case study showcases period-appropriate sound design, eerie environmental textures, and haunting musical elements—all captured and crafted using an Aston Spirit microphone for foley and field recording work.',
       category: 'Case Study',
-      tags: ['Horror Film', 'Sound Design', 'Foley', 'Composition', 'Atmospheric Audio'],
+      tags: ['Horror Film', 'Sound Design', 'Foley', 'Composition', 'Interactive Audio'],
       thumbnail: '/images/VVITCH Thumbnail.png',
-      videoEmbed: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+
+      // Local video file with interactive audio stems
+      videoFile: '/videos/The VVitch - Video Preview.mp4',
+      audioStems: [
+        { label: 'Full Scene', audioPath: '/audio/The VVitch - Full Scene.wav' },
+        { label: 'Foley+Amb', audioPath: '/audio/The VVitch - Foley+Amb.wav' },
+        { label: 'Music', audioPath: '/audio/The VVitch - Music.wav' }
+      ],
+
       role: [
         'Sound Designer - Period-appropriate SFX and environmental design',
         'Composer - Dark ambient score and musical textures',
@@ -480,11 +496,12 @@ export const featuredData = {
       technicalDetails: {
         format: 'Film Scene Re-score',
         duration: '6 minutes',
-        client: 'Personal Project',
+        client: 'Case Study',
         year: '2024',
       },
-      links: [
-        { label: 'Watch on YouTube', url: 'https://youtube.com/example', icon: 'youtube' },
+      tools: [
+        { name: 'Ableton Live', logo: '/images/abletonlogo.png' },
+        { name: 'Studio One', logo: '/images/StudioOneLogo.png' },
       ],
     },
     {
@@ -495,7 +512,16 @@ export const featuredData = {
       category: 'Case Study',
       tags: ['Animation', 'Sound Design', 'Foley', 'Orchestral', 'Field Recording'],
       thumbnail: '/images/ponyo-amazon.jpg',
-      videoEmbed: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+
+      // Local video file with interactive audio stems
+      videoFile: '/videos/Ponyo-Full Scene.mp4',
+      audioStems: [
+        { label: 'Full Scene', audioPath: '/audio/Ponyo-Full Scene.mp3' },
+        { label: 'Foley+Amb', audioPath: '/audio/Ponyo-foley+Amb.mp3' },
+        { label: 'Music', audioPath: '/audio/Ponyo-Music.mp3' },
+        { label: 'Music & Foley', audioPath: '/audio/Ponyo-NoVocals.mp3' }
+      ],
+
       role: [
         'Sound Designer - Whimsical SFX and underwater soundscapes',
         'Composer - Orchestral arrangements and musical themes',
@@ -506,11 +532,12 @@ export const featuredData = {
       technicalDetails: {
         format: 'Promotional Preview',
         duration: '2 minutes',
-        client: 'Personal Project',
+        client: 'Case Study',
         year: '2024',
       },
-      links: [
-        { label: 'Watch on YouTube', url: 'https://youtube.com/example', icon: 'youtube' },
+      tools: [
+        { name: 'Ableton Live', logo: '/images/abletonlogo.png' },
+        { name: 'Studio One', logo: '/images/StudioOneLogo.png' },
       ],
     },
     {
@@ -532,7 +559,7 @@ export const featuredData = {
       technicalDetails: {
         format: 'Film Trailer Re-score',
         duration: '2.5 minutes',
-        client: 'Personal Project',
+        client: 'Case Study',
         year: '2024',
       },
       links: [
@@ -547,7 +574,14 @@ export const featuredData = {
       category: 'Case Study',
       tags: ['Horror Film', 'Trailer', 'Sound Design', 'Composition', 'Mixing'],
       thumbnail: '/images/Terrifier-3.jpg',
-      videoEmbed: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+
+      // Local video file with interactive audio stems
+      videoFile: '/videos/Terrifier - Full Scene.mp4',
+      audioStems: [
+        { label: 'Full Scene', audioPath: '/audio/Terrifier - Full Scene.mp3' },
+        { label: 'Music & Foley', audioPath: '/audio/Terrifier - NoVocals.mp3' }
+      ],
+
       role: [
         'Sound Designer - Complete SFX library creation and horror soundscapes',
         'Composer - Original score composition and arrangement',
@@ -558,12 +592,9 @@ export const featuredData = {
       technicalDetails: {
         format: 'Film Trailer Re-score',
         duration: '2.5 minutes',
-        client: 'Personal Project',
+        client: 'Case Study',
         year: '2024',
       },
-      links: [
-        { label: 'Watch on YouTube', url: 'https://youtube.com/example', icon: 'youtube' },
-      ],
       tools: [
         { name: 'Ableton Live', logo: '/images/abletonlogo.png' },
         { name: 'Studio One', logo: '/images/StudioOneLogo.png' },

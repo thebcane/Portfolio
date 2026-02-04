@@ -6,6 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { featuredData, type FeaturedCard } from '@/lib/data/featured';
 import { AudioShowcaseCard } from '@/components/featured-work/audio-showcase-card';
 import { VideoLandscapeCard } from '@/components/featured-work/video-landscape-card';
+import { VideoStemPlayerCard } from '@/components/featured-work/video-stem-player-card';
 import { MusicShowcaseCard } from '@/components/featured-work/music-showcase-card';
 import MultipleSelector, { type Option } from '@/components/ui/multiselect';
 import { Button } from '@/components/ui/button';
@@ -91,6 +92,21 @@ export function FeaturedMosaicGrid() {
     }
 
     if (card.type === 'video') {
+      // Check if video has audio stems - use VideoStemPlayerCard if so
+      const hasStems = card.videoFile && card.audioStems && card.audioStems.length > 0;
+      console.log('Video card rendering:', {
+        id: card.id,
+        title: card.title,
+        hasVideoFile: !!card.videoFile,
+        hasAudioStems: !!card.audioStems,
+        stemsCount: card.audioStems?.length,
+        willUseVideoStemPlayerCard: hasStems
+      });
+
+      if (hasStems) {
+        return <VideoStemPlayerCard data={card} index={index} />;
+      }
+      // Otherwise use standard video card
       return <VideoLandscapeCard data={card} index={index} />;
     }
 

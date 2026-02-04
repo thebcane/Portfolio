@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { VideoLandscapeCard } from './video-landscape-card';
 import { featuredData } from '@/lib/data/featured';
 import MultipleSelector, { Option } from '@/components/ui/multiselect';
+import { ScrollNavigation } from '@/components/ui/scroll-navigation';
 
 /**
  * Grid component that displays video cards in landscape format
@@ -68,15 +69,21 @@ export function VideoShowcaseGrid() {
       </div>
 
       {/* Horizontal scrolling grid with 2 rows, continuing horizontally */}
-      <div className="grid grid-rows-2 grid-flow-col auto-cols-[60%] md:auto-cols-[55%] lg:auto-cols-[45%] gap-6 -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory">
-        <AnimatePresence mode="popLayout">
-          {filteredCards.map((card, index) => {
-            if (card.type === 'video') {
-              return <VideoLandscapeCard key={card.id} data={card} index={index} />;
-            }
-            return null;
-          })}
-        </AnimatePresence>
+      <div className="relative">
+        <ScrollNavigation containerId="video-showcase-scroll" />
+        <div
+          id="video-showcase-scroll"
+          className="grid grid-rows-2 grid-flow-col auto-cols-[60%] md:auto-cols-[55%] lg:auto-cols-[45%] gap-6 -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredCards.map((card, index) => {
+              if (card.type === 'video') {
+                return <VideoLandscapeCard key={card.id} data={card} index={index} />;
+              }
+              return null;
+            })}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Empty state if no videos */}

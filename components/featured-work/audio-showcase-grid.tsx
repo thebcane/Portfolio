@@ -7,6 +7,7 @@ import { MusicShowcaseCard } from './music-showcase-card';
 import { featuredData } from '@/lib/data/featured';
 import type { AudioCardData, MusicCardData } from '@/lib/data/featured';
 import MultipleSelector, { Option } from '@/components/ui/multiselect';
+import { ScrollNavigation } from '@/components/ui/scroll-navigation';
 
 /**
  * Grid component that displays audio and music cards in the showcase style
@@ -82,15 +83,21 @@ export function AudioShowcaseGrid() {
       </div>
 
       {/* Horizontal scrolling grid with 2 rows, 3 columns */}
-      <div className="grid grid-rows-2 grid-flow-col auto-cols-[minmax(200px,1fr)] md:auto-cols-[minmax(240px,1fr)] gap-6 -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory">
-        <AnimatePresence mode="popLayout">
-          {filteredCards.map((card, index) => {
-            if (card.type === 'music') {
-              return <MusicShowcaseCard key={card.id} data={card} index={index} />;
-            }
-            return <AudioShowcaseCard key={card.id} data={card} index={index} />;
-          })}
-        </AnimatePresence>
+      <div className="relative">
+        <ScrollNavigation containerId="audio-showcase-scroll" />
+        <div
+          id="audio-showcase-scroll"
+          className="grid grid-rows-2 grid-flow-col auto-cols-[minmax(200px,1fr)] md:auto-cols-[minmax(240px,1fr)] gap-6 -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredCards.map((card, index) => {
+              if (card.type === 'music') {
+                return <MusicShowcaseCard key={card.id} data={card} index={index} />;
+              }
+              return <AudioShowcaseCard key={card.id} data={card} index={index} />;
+            })}
+          </AnimatePresence>
+        </div>
       </div>
 
       {/* Optional: Add a description or CTA */}

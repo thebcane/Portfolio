@@ -167,7 +167,7 @@ export function MusicShowcaseCard({
             e.stopPropagation();
             togglePlayPause();
           }}
-          className="absolute bottom-20 right-6 z-30 w-12 h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.3)]
+          className="absolute bottom-35 right-6 z-30 w-12 h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.3)]
                      flex items-center justify-center
                      hover:scale-110 active:scale-95 transition-transform duration-200"
           whileHover={{ scale: 1.1 }}

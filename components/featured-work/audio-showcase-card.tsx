@@ -191,9 +191,8 @@ export function AudioShowcaseCard({
               src={data.thumbnail}
               alt={data.title}
               fill
-              className={`object-cover transition-all duration-500 ${
-                !isMixed ? 'grayscale' : 'grayscale-0'
-              }`}
+              className={`object-cover transition-all duration-500 ${!isMixed ? 'grayscale' : 'grayscale-0'
+                }`}
               priority
             />
             {/* Tag Badges - Top left corner */}
@@ -249,7 +248,7 @@ export function AudioShowcaseCard({
             togglePlayPause();
           }}
           disabled={isLoading}
-          className="absolute bottom-20 right-6 z-30 w-12 h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.3)]
+          className="absolute bottom-35 right-6 z-30 w-12 h-12 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.3)]
                      flex items-center justify-center
                      hover:scale-110 active:scale-95 transition-transform duration-200
                      disabled:opacity-50 disabled:cursor-not-allowed"
@@ -390,9 +389,8 @@ export function AudioShowcaseCard({
                         src={data.thumbnail}
                         alt={data.title}
                         fill
-                        className={`object-cover transition-all duration-500 ${
-                          !isMixed ? 'grayscale' : 'grayscale-0'
-                        }`}
+                        className={`object-cover transition-all duration-500 ${!isMixed ? 'grayscale' : 'grayscale-0'
+                          }`}
                       />
                     </div>
                   )}
@@ -488,9 +486,8 @@ export function AudioShowcaseCard({
                         src={data.thumbnail}
                         alt={data.title}
                         fill
-                        className={`object-cover transition-all duration-500 ${
-                          !isMixed ? 'grayscale' : 'grayscale-0'
-                        }`}
+                        className={`object-cover transition-all duration-500 ${!isMixed ? 'grayscale' : 'grayscale-0'
+                          }`}
                       />
                     </div>
                   )}

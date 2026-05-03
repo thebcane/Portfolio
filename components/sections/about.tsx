@@ -2,25 +2,17 @@
 
 import { profileData } from "@/lib/data/profile";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { HeroImage } from "@/components/hero-image";
 import { AudioShowcaseGrid } from "@/components/featured-work/audio-showcase-grid";
 import { VideoShowcaseGrid } from "@/components/featured-work/video-showcase-grid";
-import { Marquee } from "@/components/ui/marquee";
+import { ClientsMarquee } from "@/components/clients-marquee";
+import { FeaturedCreators } from "@/components/featured-creators";
+import { AwardsRow } from "@/components/awards-row";
 import { LinkPreview } from "@/components/ui/link-preview";
-import { Users, Eye, Video } from "lucide-react";
 
 export function AboutSection() {
-  const [selectedCreator, setSelectedCreator] = useState<number | null>(null);
-
   return (
     <div className="space-y-[35px]">
       {/* Hero Image */}
@@ -35,29 +27,13 @@ export function AboutSection() {
       />
 
       {/* Clients Marquee */}
-      <Marquee speed={20} className="my-6">
-        {profileData.clients.map((client, index) => (
-          <div
-            key={index}
-            className="relative h-[50px] w-[150px] mx-[2rem] flex items-center justify-center"
-          >
-            <Image
-              src={client.logo}
-              alt={client.name}
-              width={150}
-              height={50}
-              className="object-contain"
-              unoptimized
-            />
-          </div>
-        ))}
-      </Marquee>
+      <ClientsMarquee clients={profileData.clients} variant="equal" />
 
       {/* About Me Text */}
       <section>
         <div className="space-y-[15px] sm:space-y-10 text-foreground text-sm sm:text-[15px] font-light leading-relaxed">
           <div>
-            I'm Brendan—a multi-award-winning audio engineer from Toronto who's spent the last 10+ years turning noise into storytelling across immersive sound design, vocal/dialog editing, music production, and interactive media.
+            I'm Brendan, a multi-award-winning audio engineer from Toronto who's spent the last 10+ years turning noise into storytelling across immersive sound design, vocal/dialog editing, music production, and interactive media.
           </div>
           <div>
             As Head Audio Engineer at{" "}
@@ -74,7 +50,7 @@ export function AboutSection() {
             >
               Golden Globe nomination
             </LinkPreview>
-            {" "}for our immersive storytelling—becoming one of the first podcasts ever nominated—and won multiple{" "}
+            {" "}for our immersive storytelling, becoming one of the first podcasts ever nominated, and won multiple{" "}
             <LinkPreview
               url="https://winners.webbyawards.com"
               className="font-medium underline decoration-muted-foreground/30 hover:decoration-foreground transition-colors"
@@ -131,170 +107,52 @@ export function AboutSection() {
         </div>
       </section>
 
-      {/* Video/Visual Projects */}
-      <section className="video-projects">
-        <VideoShowcaseGrid />
-      </section>
-
-      {/* What I've Done */}
+      {/* Music & Audio Shows — moved up, this is the lead-with section */}
       <section className="featured-work">
         <AudioShowcaseGrid />
       </section>
 
-      {/* Creators */}
-      <section className="creators mb-[30px]">
-        <h3 className="text-lg sm:text-2xl font-semibold capitalize mb-5">Featured Creators</h3>
-        <div className="flex justify-start items-start gap-[15px] sm:gap-[30px] -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory">
-          {profileData.creators.map((creator, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1 }}
-              className="min-w-[280px] sm:min-w-[320px] snap-center cursor-pointer"
-              onClick={() => setSelectedCreator(index)}
-            >
-              <div className="content-card p-[15px] sm:p-[30px] pt-[45px] sm:pt-[25px] relative">
-                <figure className="absolute top-0 left-0 transform translate-x-[15px] sm:translate-x-[30px] -translate-y-[25px] sm:-translate-y-[30px] bg-gradient-to-br from-[hsl(240,1%,25%)] to-[hsl(0,0%,19%)] rounded-[14px] sm:rounded-[20px] shadow-[var(--shadow-1)]">
-                  <img
-                    src={creator.avatar}
-                    alt={creator.name}
-                    className="w-[60px] h-[60px] sm:w-20 sm:h-20 rounded-[14px] sm:rounded-[20px] object-cover"
-                  />
-                </figure>
-                <h4 className="text-base sm:text-lg font-semibold capitalize mb-[7px] sm:mb-[10px] ml-0 sm:ml-[95px]">{creator.name}</h4>
-                <div className="text-sm sm:text-[15px] text-foreground font-light leading-relaxed space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Users className="w-3.5 h-3.5 opacity-60" />
-                      Subscribers:
-                    </span>
-                    <span className="font-medium">{creator.subscribers}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Eye className="w-3.5 h-3.5 opacity-60" />
-                      Total Views:
-                    </span>
-                    <span className="font-medium">{creator.totalViews}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Video className="w-3.5 h-3.5 opacity-60" />
-                      Videos:
-                    </span>
-                    <span className="font-medium">{creator.videoCount}</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+      {/* Podcast services CTA strip — funnels narrative-podcast traffic to /podcasts */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="content-card gradient-border p-5 sm:p-7 rounded-[14px] flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6"
+      >
+        <div className="flex-1">
+          <p className="text-[11px] uppercase tracking-wider text-primary/80 font-medium mb-1">
+            Podcast hosts
+          </p>
+          <h4 className="text-base sm:text-lg font-semibold mb-1">
+            Producing a narrative podcast?
+          </h4>
+          <p className="text-sm text-muted-foreground font-light leading-relaxed">
+            Edit, mix, and master with a 48-hour turnaround. See the dedicated services page for pricing and a free first episode offer.
+          </p>
         </div>
-
-        {/* Creator Modal */}
-        <Dialog
-          open={selectedCreator !== null}
-          onOpenChange={() => setSelectedCreator(null)}
+        <Link
+          href="/podcasts"
+          className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-primary/40 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors whitespace-nowrap self-start sm:self-auto"
         >
-          <DialogContent className="sm:max-w-[680px]">
-            {selectedCreator !== null && (
-              <>
-                <DialogHeader>
-                  <div className="flex items-center gap-4 sm:gap-[25px] mb-4">
-                    <figure className="bg-gradient-to-br from-[hsl(240,1%,25%)] to-[hsl(0,0%,19%)] rounded-[18px]">
-                      <img
-                        src={profileData.creators[selectedCreator].avatar}
-                        alt={profileData.creators[selectedCreator].name}
-                        className="w-[65px] h-[65px] sm:w-20 sm:h-20 rounded-[18px] object-cover"
-                      />
-                    </figure>
-                    <div>
-                      <DialogTitle className="text-lg sm:text-xl">
-                        {profileData.creators[selectedCreator].name}
-                      </DialogTitle>
-                      <a
-                        href={profileData.creators[selectedCreator].youtubeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm sm:text-[15px] text-muted-foreground hover:text-foreground font-light transition-colors underline"
-                      >
-                        Visit YouTube Channel
-                      </a>
-                    </div>
-                  </div>
-                </DialogHeader>
-                <DialogDescription className="text-sm sm:text-[15px] text-foreground font-light leading-relaxed space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-border">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Users className="w-4 h-4 opacity-60" />
-                      Subscribers:
-                    </span>
-                    <span className="font-medium text-foreground">{profileData.creators[selectedCreator].subscribers}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-border">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Eye className="w-4 h-4 opacity-60" />
-                      Total Views:
-                    </span>
-                    <span className="font-medium text-foreground">{profileData.creators[selectedCreator].totalViews}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-muted-foreground flex items-center gap-2">
-                      <Video className="w-4 h-4 opacity-60" />
-                      Videos:
-                    </span>
-                    <span className="font-medium text-foreground">{profileData.creators[selectedCreator].videoCount}</span>
-                  </div>
-                </DialogDescription>
-              </>
-            )}
-          </DialogContent>
-        </Dialog>
+          Podcast services
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </motion.section>
+
+      {/* Visual Projects — demoted, smaller heading + caption */}
+      <section className="video-projects pt-2">
+        <p className="text-[11px] uppercase tracking-wider text-muted-foreground/70 font-medium mb-[-8px]">
+          Also: 3D, animation, and game-audio work
+        </p>
+        <VideoShowcaseGrid />
       </section>
+
+      {/* Creators */}
+      <FeaturedCreators creators={profileData.creators} />
 
       {/* Awards */}
-      <section className="awards mb-[30px]">
-        <h3 className="text-lg sm:text-2xl font-semibold capitalize mb-5">Awards & Recognition</h3>
-        <div className="flex justify-start items-stretch gap-[15px] sm:gap-[30px] -mx-4 sm:-mx-[30px] px-4 sm:px-[30px] py-[25px] sm:py-[30px] pb-[35px] overflow-x-auto has-scrollbar snap-x snap-mandatory">
-          {profileData.awards.map((award, index) => {
-            const getAwardColor = (name: string) => {
-              if (name.includes("Golden Globe")) return "text-amber-400";
-              if (name.includes("Winner")) return "text-yellow-500";
-              if (name.includes("Honoree")) return "text-slate-300";
-              return "text-foreground";
-            };
-
-            const [showName, awardType] = award.name.split(" - ");
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="min-w-[280px] sm:min-w-[320px] snap-center"
-              >
-                <div className="content-card p-[15px] sm:p-[30px] flex flex-col items-center text-center h-full">
-                  <figure className="mb-4 w-full aspect-square max-w-[200px] flex items-center justify-center overflow-hidden rounded-xl shadow-lg">
-                    <img
-                      src={award.image}
-                      alt={award.name}
-                      className="w-full h-full object-contain"
-                    />
-                  </figure>
-                  <h4 className={`text-base sm:text-lg font-semibold mb-1 ${getAwardColor(award.name)}`}>
-                    {awardType}
-                  </h4>
-                  <p className="text-sm sm:text-[15px] text-foreground font-medium mb-2">{showName}</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground font-light mb-1">{award.category}</p>
-                  <time className="text-xs sm:text-sm text-muted-foreground font-light">{award.year}</time>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </section>
-
+      <AwardsRow awards={profileData.awards} />
     </div>
   );
 }

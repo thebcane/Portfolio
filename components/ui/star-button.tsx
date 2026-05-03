@@ -1,119 +1,136 @@
 "use client";
 
-import React, { useRef, useEffect, ReactNode, CSSProperties } from "react";
-import { cn } from "@/lib/utils";
-
-interface StarBackgroundProps {
-  color?: string;
-}
-
-function StarBackground({ color }: StarBackgroundProps) {
-  return (
-    <svg
-      width="100%"
-      height="100%"
-      preserveAspectRatio="none"
-      viewBox="0 0 400 80"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clipPath="url(#clip0_408_119)">
-        {/* Generate more, smaller stars across the entire viewBox */}
-        {Array.from({ length: 80 }).map((_, i) => {
-          const x = (i * 17 + Math.sin(i) * 30) % 400;
-          const y = (i * 13 + Math.cos(i) * 25) % 80;
-          const size = 0.4 + (i % 3) * 0.15;
-          return (
-            <circle
-              key={i}
-              cx={x}
-              cy={y}
-              r={size}
-              fill={color || "currentColor"}
-              opacity={0.3 + (i % 4) * 0.15}
-            />
-          );
-        })}
-      </g>
-      <defs>
-        <clipPath id="clip0_408_119">
-          <rect width="400" height="80" fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
-  );
-}
+import React from "react";
+import type { LucideIcon } from "lucide-react";
 
 interface StarButtonProps {
-  children: ReactNode;
-  lightWidth?: number;
-  duration?: number;
-  lightColor?: string;
-  backgroundColor?: string;
-  borderWidth?: number;
+  children: React.ReactNode;
+  icon?: LucideIcon;
+  onClick?: () => void;
   className?: string;
+  type?: "button" | "submit" | "reset";
 }
 
-export function StarButton({
+const StarButton = ({
   children,
-  lightWidth = 110,
-  duration = 3,
-  lightColor = "#FAFAFA",
-  backgroundColor = "currentColor",
-  borderWidth = 2,
-  className,
-  ...props
-}: StarButtonProps) {
-  const pathRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (pathRef.current) {
-      const div = pathRef.current;
-      div.style.setProperty(
-        "--path",
-        `path('M 0 0 H ${div.offsetWidth} V ${div.offsetHeight} H 0 V 0')`,
-      );
-    }
-  }, []);
-
+  icon: Icon,
+  onClick,
+  className = "",
+  type = "button",
+}: StarButtonProps) => {
   return (
     <button
-      style={
-        {
-          "--duration": duration,
-          "--light-width": `${lightWidth}px`,
-          "--light-color": lightColor,
-          "--border-width": `${borderWidth}px`,
-          isolation: "isolate",
-        } as CSSProperties
-      }
-      ref={pathRef}
-      className={cn(
-        "relative z-[3] overflow-hidden h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-3xl text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 group/star-button",
-        className,
-      )}
-      {...props}
+      type={type}
+      onClick={onClick}
+      className={`
+        group relative inline-flex items-center justify-center gap-2
+        px-[35px] py-[12px]
+        text-base font-medium
+        text-primary-foreground
+        bg-primary
+        border-[2px] border-primary
+        rounded-lg
+        shadow-[0_0_0_color-mix(in_oklch,var(--color-primary)_55%,transparent)]
+        transition-all duration-300 ease-in-out
+        cursor-pointer
+        hover:bg-transparent hover:text-primary
+        hover:shadow-[0_0_25px_color-mix(in_oklch,var(--color-primary)_55%,transparent)]
+        active:scale-95
+        ${className}
+      `}
     >
+      {Icon && <Icon className="w-4 h-4 relative z-[1]" />}
+      <span className="relative z-[1]">{children}</span>
+
+      {/* Star 1 */}
       <div
-        className="absolute aspect-square inset-0 animate-star-btn bg-[radial-gradient(ellipse_at_center,var(--light-color),transparent,transparent)]"
-        style={
-          {
-            offsetPath: "var(--path)",
-            offsetDistance: "0%",
-            width: "var(--light-width)",
-          } as CSSProperties
-        }
-      />
-      <div
-        className="absolute inset-0 dark:border-white/15 border-black/10 z-[4] overflow-hidden rounded-[inherit] dark:text-black text-white"
-        style={{ borderWidth: "var(--border-width)" }}
-        aria-hidden="true"
+        className="
+          pointer-events-none absolute top-[20%] left-[20%] w-[25px] z-[-5]
+          transition-all duration-[1000ms] ease-[cubic-bezier(0.05,0.83,0.43,0.96)]
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[-80%] group-hover:left-[-30%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
       >
-        <StarBackground color={backgroundColor} />
+        <Star />
       </div>
-      <span className="z-10 relative bg-gradient-to-t dark:from-white dark:to-neutral-500 from-black to-neutral-400 inline-flex items-center justify-center gap-2 text-transparent bg-clip-text">
-        {children}
-      </span>
+
+      {/* Star 2 */}
+      <div
+        className="
+          pointer-events-none absolute top-[45%] left-[45%] w-[15px] z-[-5]
+          transition-all duration-[1000ms] ease-[cubic-bezier(0,0.4,0,1.01)]
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[-25%] group-hover:left-[10%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
+      >
+        <Star />
+      </div>
+
+      {/* Star 3 */}
+      <div
+        className="
+          pointer-events-none absolute top-[40%] left-[40%] w-[5px] z-[-5]
+          transition-all duration-[1000ms] ease-[cubic-bezier(0,0.4,0,1.01)]
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[55%] group-hover:left-[25%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
+      >
+        <Star />
+      </div>
+
+      {/* Star 4 */}
+      <div
+        className="
+          pointer-events-none absolute top-[20%] left-[40%] w-[8px] z-[-5]
+          transition-all duration-[800ms] ease-[cubic-bezier(0,0.4,0,1.01)]
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[30%] group-hover:left-[80%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
+      >
+        <Star />
+      </div>
+
+      {/* Star 5 */}
+      <div
+        className="
+          pointer-events-none absolute top-[25%] left-[45%] w-[15px] z-[-5]
+          transition-all duration-[600ms] ease-[cubic-bezier(0,0.4,0,1.01)]
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[25%] group-hover:left-[115%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
+      >
+        <Star />
+      </div>
+
+      {/* Star 6 */}
+      <div
+        className="
+          pointer-events-none absolute top-[5%] left-[50%] w-[5px] z-[-5]
+          transition-all duration-[800ms] ease-in-out
+          drop-shadow-[0_0_0_var(--tw-shadow-color)]
+          group-hover:top-[5%] group-hover:left-[60%]
+          group-hover:drop-shadow-[0_0_10px_var(--tw-shadow-color)] group-hover:z-[2]
+        "
+      >
+        <Star />
+      </div>
     </button>
   );
-}
+};
+
+const Star = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 784.11 815.53"
+    className="w-full h-auto fill-primary"
+  >
+    <path d="M392.05 0c-20.9,210.08-184.06,378.41-392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93-210.06 184.09-378.37 392.05-407.74-207.98-29.38-371.16-197.69-392.06-407.78z" />
+  </svg>
+);
+
+export default StarButton;

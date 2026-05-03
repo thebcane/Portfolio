@@ -10,8 +10,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Brendan Cane - Portfolio",
-  description: "Creative Director and UI/UX Designer specializing in web development and print media",
+  title: "Brendan Cane — Audio Engineer & Director",
+  description: "Toronto-based audio engineer and director. Award-winning audio post-production for narrative podcasts, music, and immersive media. Golden Globe nominated.",
   icons: {
     icon: "/images/favicon/favicon.png",
   },

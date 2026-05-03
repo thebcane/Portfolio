@@ -1,22 +1,101 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, Calendar, MapPin, Download, ChevronDown } from "lucide-react";
+import { Mail, Phone, MapPin, Download, ChevronDown, Send, Mic, type LucideIcon } from "lucide-react";
 import { profileData } from "@/lib/data/profile";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import StarButton from "@/components/ui/star-button";
 
-export function Sidebar() {
+interface SidebarProps {
+  onContactClick?: () => void;
+  badgeLabel?: string;
+  primaryCta?: {
+    label: string;
+    href?: string;
+    onClick?: () => void;
+    icon?: LucideIcon;
+    external?: boolean;
+  };
+  secondaryCta?: {
+    label: string;
+    href?: string;
+    onClick?: () => void;
+    icon?: LucideIcon;
+    external?: boolean;
+  } | null;
+}
+
+export function Sidebar({
+  onContactClick,
+  badgeLabel = "Available for work",
+  primaryCta,
+  secondaryCta,
+}: SidebarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Resolve secondary CTA: explicit null = hide; undefined = default (Download CV)
+  const resolvedSecondary =
+    secondaryCta === null
+      ? null
+      : secondaryCta ?? {
+          label: "Download CV",
+          href: "/documents/Brendan Cane CV.pdf",
+          icon: Download,
+        };
+
+  const PrimaryIcon = primaryCta?.icon ?? Send;
+  const SecondaryIcon = resolvedSecondary?.icon ?? Download;
+
+  const renderPrimary = () => {
+    if (primaryCta?.href) {
+      return (
+        <a
+          href={primaryCta.href}
+          target={primaryCta.external ? "_blank" : undefined}
+          rel={primaryCta.external ? "noopener noreferrer" : undefined}
+          className="block w-full"
+        >
+          <StarButton icon={PrimaryIcon} className="w-full h-12">
+            {primaryCta.label}
+          </StarButton>
+        </a>
+      );
+    }
+    return (
+      <StarButton
+        onClick={primaryCta?.onClick ?? onContactClick}
+        icon={PrimaryIcon}
+        className="w-full h-12"
+      >
+        {primaryCta?.label ?? "Get in Touch"}
+      </StarButton>
+    );
+  };
+
   return (
-    <aside className="relative sidebar xl:sticky xl:top-[60px] max-h-[112px] xl:max-h-max overflow-hidden transition-all" style={{ maxHeight: isExpanded ? '480px' : undefined }}>
+    <aside className="relative sidebar xl:sticky xl:top-[60px] max-h-[112px] xl:max-h-max overflow-hidden xl:overflow-visible transition-all" style={{ maxHeight: isExpanded ? '480px' : undefined }}>
       {/* Profile Section - Always Visible */}
       <div className="relative flex items-center justify-between gap-4 sm:gap-6 pt-5 pb-6 px-4 sm:p-6 xl:px-[30px] xl:pt-[50px] xl:pb-0 xl:flex-col xl:items-center xl:text-center">
         <div className="flex-1 xl:w-full xl:mb-2">
           <h1 className="text-[22px] sm:text-[26px] font-medium tracking-tight mb-2 xl:mb-4 xl:whitespace-nowrap">{profileData.name}</h1>
-          <div className="inline-block bg-[#1a1a1b] text-[#e4e4e7] text-[11px] sm:text-xs font-light px-3 sm:px-[18px] py-1 sm:py-[5px] rounded-lg border border-[#3a3a3b] xl:mx-auto">
+          {/* Mobile/Tablet: single title pill, no overlap */}
+          <div className="inline-block xl:hidden bg-[#1a1a1b] text-[#e4e4e7] text-[11px] sm:text-xs font-light px-3 sm:px-[18px] py-1 sm:py-[5px] rounded-lg border border-[#3a3a3b]">
             {profileData.title}
+          </div>
+
+          {/* Desktop: stacked pill pair with availability signal */}
+          <div className="hidden xl:flex flex-col items-center gap-2 w-full mt-2 pb-2">
+            <div className="inline-block bg-[#1a1a1b] text-[#e4e4e7] text-xs font-light px-[18px] py-[5px] rounded-lg border border-[#3a3a3b]">
+              {profileData.title}
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-emerald-500/40 bg-emerald-500/10 backdrop-blur-sm max-w-[260px]">
+              <span className="relative flex h-2 w-2 flex-shrink-0">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+              </span>
+              <span className="text-xs font-light text-emerald-400 whitespace-nowrap">{badgeLabel}</span>
+            </div>
           </div>
         </div>
 
@@ -87,17 +166,6 @@ export function Sidebar() {
               </div>
             </li>
 
-            {/* Birthday */}
-            <li className="flex items-center gap-4">
-              <div className="icon-box flex-shrink-0">
-                <Calendar className="w-[18px] h-[18px]" strokeWidth={2.5} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[11px] sm:text-xs text-muted-foreground uppercase mb-[2px]">Birthday</p>
-                <time className="text-[13px] sm:text-sm">{profileData.birthday}</time>
-              </div>
-            </li>
-
             {/* Location */}
             <li className="flex items-center gap-4">
               <div className="icon-box flex-shrink-0">
@@ -113,13 +181,37 @@ export function Sidebar() {
           {/* Separator */}
           <div className="w-full h-[1px] bg-border my-4 sm:my-8"></div>
 
-          {/* Download CV Button */}
-          <a href="/documents/Brendan Cane CV.pdf" download className="block w-full">
-            <Button variant="outline" className="rounded-lg w-full h-12 text-base gap-2">
-              <Download className="w-4 h-4" />
-              Download CV
-            </Button>
-          </a>
+          {/* Get in Touch + Secondary CTA */}
+          <div className="flex flex-col gap-3">
+            {renderPrimary()}
+            {resolvedSecondary && (
+              resolvedSecondary.href ? (
+                <a
+                  href={resolvedSecondary.href}
+                  {...(resolvedSecondary.href.endsWith(".pdf")
+                    ? { download: true }
+                    : {})}
+                  target={resolvedSecondary.external ? "_blank" : undefined}
+                  rel={resolvedSecondary.external ? "noopener noreferrer" : undefined}
+                  className="block w-full"
+                >
+                  <Button variant="outline" className="rounded-lg w-full h-12 text-base gap-2">
+                    <SecondaryIcon className="w-4 h-4" />
+                    {resolvedSecondary.label}
+                  </Button>
+                </a>
+              ) : (
+                <Button
+                  onClick={resolvedSecondary.onClick}
+                  variant="outline"
+                  className="rounded-lg w-full h-12 text-base gap-2"
+                >
+                  <SecondaryIcon className="w-4 h-4" />
+                  {resolvedSecondary.label}
+                </Button>
+              )
+            )}
+          </div>
         </div>
       </motion.div>
     </aside>

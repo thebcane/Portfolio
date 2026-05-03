@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,6 +18,7 @@ interface DockProps {
     icon: React.ComponentType<{ className?: string }>
     label: string
     onClick?: () => void
+    href?: string
     tooltip?: string
   }[]
   activeLabel?: string
@@ -60,37 +62,66 @@ export default function Dock({ items, className, activeLabel }: DockProps) {
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className="relative flex flex-col items-center"
                   >
-                    <Button
-                      variant="ghost"
-                      className={cn(
-                        "rounded-xl relative px-4 py-1.5 h-auto",
-                        "transition-colors",
-                        "hover:bg-transparent",
-                        (isActive || isHovered) ? "border border-border" : "border-0",
-                        isHovered && "shadow-lg shadow-primary/10"
-                      )}
-                      onClick={() => {
-                        item.onClick?.()
-                      }}
-                    >
-                      <span
+                    {item.href ? (
+                      <Link
+                        href={item.href}
                         className={cn(
-                          "text-sm font-medium transition-colors",
-                          isActive ? "text-primary" : "text-foreground"
+                          "rounded-xl relative px-4 py-1.5 inline-flex items-center justify-center",
+                          "transition-colors",
+                          "hover:bg-transparent",
+                          (isActive || isHovered) ? "border border-border" : "border-0 border-transparent",
+                          isHovered && "shadow-lg shadow-primary/10"
                         )}
                       >
-                        {item.label}
-                      </span>
-                      {/* Active glow effect */}
-                      {isActive && (
-                        <motion.span
-                          className="absolute inset-0 rounded-xl bg-primary/10"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        />
-                      )}
-                    </Button>
+                        <span
+                          className={cn(
+                            "text-sm font-medium transition-colors",
+                            isActive ? "text-primary" : "text-foreground"
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                        {isActive && (
+                          <motion.span
+                            className="absolute inset-0 rounded-xl bg-primary/10"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          />
+                        )}
+                      </Link>
+                    ) : (
+                      <Button
+                        variant="ghost"
+                        className={cn(
+                          "rounded-xl relative px-4 py-1.5 h-auto",
+                          "transition-colors",
+                          "hover:bg-transparent",
+                          (isActive || isHovered) ? "border border-border" : "border-0",
+                          isHovered && "shadow-lg shadow-primary/10"
+                        )}
+                        onClick={() => {
+                          item.onClick?.()
+                        }}
+                      >
+                        <span
+                          className={cn(
+                            "text-sm font-medium transition-colors",
+                            isActive ? "text-primary" : "text-foreground"
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                        {isActive && (
+                          <motion.span
+                            className="absolute inset-0 rounded-xl bg-primary/10"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                          />
+                        )}
+                      </Button>
+                    )}
 
                     {/* Active indicator dot below */}
                     {isActive && (

@@ -15,6 +15,11 @@ export interface AudioCardData {
     primary: string;    // Label for "mixed" version (default: "Mixed")
     secondary: string;  // Label for "unmixed" version (default: "Unmixed")
   };
+  showcaseBeforeAfter?: boolean;
+  showcaseStats?: {
+    label: string; // e.g. "Episodes mixed"
+    value: string; // e.g. "300+"
+  }[];
   thumbnail?: string;
   duration?: string;
   videoEmbed?: string; // YouTube, Vimeo, or other embed URL
@@ -147,6 +152,12 @@ export const featuredData = {
     {
       type: 'audio' as const,
       id: 'audio-1',
+      showcaseBeforeAfter: true,
+      showcaseStats: [
+        { label: 'Episodes mixed', value: '120+' },
+        { label: 'YouTube subscribers', value: '1.5M' },
+        { label: 'Webby Honoree', value: '2025' },
+      ],
       title: 'Wartime Stories',
       description: 'Every soldier has a story. Some, they try to forget. Others, they can’t stop thinking about – stories that no one else would believe happened. Something that terrified them. Something they cannot explain. \n\nFrom Ballen Studios, and hosted by Marine Corp Reconnaissance veteran, Luke Lamana, this is Wartime Stories. A weekly podcast that is a mix of horror, mystery, and awe inspiring tales. Where the strange, dark & mysterious meets the battlefield and beyond.',
       category: 'Ballen Studios',
@@ -171,6 +182,12 @@ export const featuredData = {
     {
       type: 'audio' as const,
       id: 'audio-2',
+      showcaseBeforeAfter: true,
+      showcaseStats: [
+        { label: 'Episodes mixed', value: '300+' },
+        { label: 'YouTube subscribers', value: '10.2M' },
+        { label: 'Golden Globe nominee', value: '2025' },
+      ],
       title: 'MrBallen Podcast: Strange, Dark & Mysterious Stories',
       description: 'The flagship podcast from Ballen Studios that started it all. Hosted by John Allen (MrBallen), this true crime and mystery podcast presents strange, dark, and mysterious content delivered in captivating story format. Each episode features meticulously researched tales of the unexplained, bizarre crimes, and chilling mysteries—all enhanced with immersive sound design and atmospheric audio production. With billions of views across platforms, MrBallen has become one of the most recognized voices in true crime storytelling.',
       category: 'Ballen Studios',
@@ -243,6 +260,12 @@ export const featuredData = {
     {
       type: 'audio' as const,
       id: 'audio-5',
+      showcaseBeforeAfter: true,
+      showcaseStats: [
+        { label: 'Episodes mixed', value: '60+' },
+        { label: 'Studio', value: 'Spotify / Parcast' },
+        { label: 'Webby Honoree', value: '2024' },
+      ],
       title: 'Medical Mysteries',
       description: 'We trust doctors with our lives—they are some of the most educated and well-respected members of society. But what happens when they can\'t diagnose a patient? This high-stakes medical procedural follows patients as they suffer from bizarre, often terrifying illnesses that doctors never learned about in medical school. A Spotify Original from Parcast, Medical Mysteries combines medical drama with immersive sound design to explore the most baffling cases in modern medicine, where life and death hang in the balance of the unexplainable.',
       category: 'Parcast/Spotify',
@@ -266,6 +289,12 @@ export const featuredData = {
     {
       type: 'audio' as const,
       id: 'audio-6',
+      showcaseBeforeAfter: true,
+      showcaseStats: [
+        { label: 'Episodes mixed', value: '180+' },
+        { label: 'YouTube subscribers', value: '2.2M' },
+        { label: 'Total views', value: '420M+' },
+      ],
       title: 'Bedtime Stories',
       description: 'From Ballen Studios, welcome to Bedtime Stories—but don\'t expect sweet dreams. From the paranormal to the supernatural, unsolved mysteries to strange deaths, cryptids to the most disturbing of true crime, this podcast brings you stories from around the world, all told in a unique and bone-chilling way. Each Wednesday, settle in for tales that blur the line between reality and nightmare, enhanced with atmospheric sound design that will keep you up long after the episode ends.',
       category: 'Ballen Studios',
@@ -290,6 +319,12 @@ export const featuredData = {
     {
       type: 'audio' as const,
       id: 'audio-7',
+      showcaseBeforeAfter: true,
+      showcaseStats: [
+        { label: 'Episodes mixed', value: '40+' },
+        { label: 'Network', value: 'Wondery' },
+        { label: 'Format', value: 'Cinematic Doc' },
+      ],
       title: 'Redacted: Declassified Mysteries',
       description: 'Behind the closed doors of government offices and military compounds lie hidden stories and buried secrets from the darkest corners of history. From the hitmakers at Wondery and Ballen Studios, Redacted pulls back the curtain on once-classified information, exposing the secrets and lies behind the world\'s most powerful institutions. Each week, Marine Corps Reconnaissance veteran Luke Lamana investigates declassified documents and covert operations, brought to life with cinematic sound design that reveals what they never wanted you to know.',
       category: 'Ballen Studios',
@@ -333,88 +368,6 @@ export const featuredData = {
         { name: 'Ableton Live', logo: '/images/abletonlogo.png' },
         { name: 'Pro Tools', logo: '/images/Protools Logo.png' },
         { name: 'Studio One', logo: '/images/StudioOneLogo.png' },
-      ],
-    },
-    {
-      type: 'audio' as const,
-      id: 'dialog-1',
-      title: 'Podcast Voice Cleanup - Noise Reduction',
-      description: 'Professional noise reduction and background cleanup for podcast recording. This sample demonstrates advanced noise profiling and spectral editing techniques to remove persistent background hum, HVAC noise, and environmental artifacts while preserving vocal clarity and natural tone. The process involved multi-pass noise reduction, surgical EQ to target specific frequency ranges, and careful dynamics control to maintain consistent presence throughout the recording.',
-      category: 'Dialog Editing',
-      tags: ['Dialog Editing', 'Noise Reduction', 'Podcast', 'Restoration'],
-      audioFiles: {
-        mixed: '/audio/dialog-noise-reduction-after.mp3',
-        unmixed: '/audio/dialog-noise-reduction-before.mp3',
-      },
-      toggleLabels: {
-        primary: 'After',
-        secondary: 'Before'
-      },
-      thumbnail: '/images/dialog-noise-reduction-thumb.jpg',
-      tools: [
-        { name: 'Pro Tools', logo: '/images/Protools Logo.png' },
-      ],
-    },
-    {
-      type: 'audio' as const,
-      id: 'dialog-2',
-      title: 'De-essing & Plosive Removal',
-      description: 'Surgical de-essing and plosive correction for voice-over work. This example showcases targeted frequency reduction to tame harsh sibilance without dulling the overall vocal brightness, combined with precise plosive removal using spectral editing and strategic high-pass filtering. The result maintains vocal energy and articulation while eliminating distracting mouth noises and breath artifacts.',
-      category: 'Dialog Editing',
-      tags: ['Dialog Editing', 'De-essing', 'Voice-Over', 'Vocal Mixing'],
-      audioFiles: {
-        mixed: '/audio/dialog-deessing-after.mp3',
-        unmixed: '/audio/dialog-deessing-before.mp3',
-      },
-      toggleLabels: {
-        primary: 'After',
-        secondary: 'Before'
-      },
-      thumbnail: '/images/dialog-deessing-thumb.jpg',
-      tools: [
-        { name: 'Pro Tools', logo: '/images/Protools Logo.png' },
-        { name: 'Studio One', logo: '/images/StudioOneLogo.png' },
-      ],
-    },
-    {
-      type: 'audio' as const,
-      id: 'dialog-3',
-      title: 'Vocal Mixing & EQ Enhancement',
-      description: 'Complete vocal mixing chain demonstrating professional EQ shaping, compression, and tonal enhancement. This sample illustrates a full vocal processing workflow: corrective EQ to address resonances and boxiness, creative EQ for presence and air, transparent compression for consistency, subtle saturation for warmth, and final limiting for broadcast loudness standards. The transformation brings studio-quality polish to a raw recording while maintaining natural vocal character.',
-      category: 'Dialog Editing',
-      tags: ['Dialog Editing', 'Vocal Mixing', 'EQ', 'Compression'],
-      audioFiles: {
-        mixed: '/audio/dialog-vocal-mixing-after.mp3',
-        unmixed: '/audio/dialog-vocal-mixing-before.mp3',
-      },
-      toggleLabels: {
-        primary: 'After',
-        secondary: 'Before'
-      },
-      thumbnail: '/images/dialog-vocal-mixing-thumb.jpg',
-      tools: [
-        { name: 'Ableton Live', logo: '/images/abletonlogo.png' },
-        { name: 'Pro Tools', logo: '/images/Protools Logo.png' },
-      ],
-    },
-    {
-      type: 'audio' as const,
-      id: 'dialog-4',
-      title: 'Dialogue Repair & Restoration',
-      description: 'Advanced audio restoration techniques applied to damaged or degraded dialog recordings. This comprehensive repair work demonstrates the restoration of audio with clipping distortion, drop-outs, phase issues, and severe background interference. Using a combination of spectral repair, declipping algorithms, phase correction, and creative problem-solving, the damaged source material is transformed into usable, professional-quality dialog. Ideal for salvaging irreplaceable recordings or fixing technical issues from field recordings.',
-      category: 'Dialog Editing',
-      tags: ['Dialog Editing', 'Restoration', 'Audio Repair', 'Dialogue Repair'],
-      audioFiles: {
-        mixed: '/audio/dialog-restoration-after.mp3',
-        unmixed: '/audio/dialog-restoration-before.mp3',
-      },
-      toggleLabels: {
-        primary: 'After',
-        secondary: 'Before'
-      },
-      thumbnail: '/images/dialog-restoration-thumb.jpg',
-      tools: [
-        { name: 'Pro Tools', logo: '/images/Protools Logo.png' },
       ],
     },
     {

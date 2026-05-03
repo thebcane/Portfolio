@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/sidebar";
+import { Mic, Send } from "lucide-react";
 import { Navigation, Section } from "@/components/navigation";
 import { AboutSection } from "@/components/sections/about";
 import { ResumeSection } from "@/components/sections/resume";
@@ -35,7 +36,19 @@ export default function Home() {
   return (
     <main className="my-[15px] mx-3 mb-[75px] min-w-[259px] sm:mt-[60px] sm:mb-[100px] xl:max-w-[1200px] xl:mx-auto xl:my-[60px] xl:mb-[60px] xl:flex xl:justify-center xl:items-stretch xl:gap-[25px]">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar
+        onContactClick={() => handleSectionChange("contact")}
+        primaryCta={{
+          label: "Get Produced",
+          href: "/podcasts",
+          icon: Mic,
+        }}
+        secondaryCta={{
+          label: "Get in Touch",
+          onClick: () => handleSectionChange("contact"),
+          icon: Send,
+        }}
+      />
 
       {/* Main Content */}
       <div className="main-content relative w-full mx-auto xl:min-w-[75%] xl:w-[75%] xl:m-0 mt-[15px] sm:mt-[30px] xl:mt-0 overflow-x-hidden sm:overflow-x-visible">

@@ -118,6 +118,62 @@ Edit CSS variables in `app/globals.css`:
 }
 ```
 
+## Adding a New Outreach Page
+
+Outreach pages live at `brendancane.com/{show-slug}` and are built from a single template at `app/[show-slug]/`. Each page is a personalized before/after for one podcast host.
+
+### Steps
+
+1. **Drop the audio files** into `public/audio/`:
+   - `before-{slug}.mp3` (raw / unmixed)
+   - `after-{slug}.mp3` (mixed)
+
+2. **(Optional) Drop a thumbnail** into `public/images/` — the show's cover art improves the player visual. PNG/JPG, square.
+
+3. **Add the show to `lib/data/outreach.ts`** as a new key in `outreachShows`:
+
+   ```ts
+   "murder-she-told": {
+     hostFirstName: "Kristen",
+     showName: "Murder, She Told",
+     episodeTitle: "The Disappearance of Christopher Bird",  // clean title shown under the player
+     setupParagraph:                                          // 1–2 sentences, rewrite per show
+       "I took the intro from your episode on Christopher Bird and ran it through the vocal chain I'd use if I were mixing the show full-time.",
+     audioFiles: {
+       unmixed: "/audio/before-murder-she-told.mp3",
+       mixed:   "/audio/after-murder-she-told.mp3",
+     },
+     thumbnail: "/images/murder-she-told.jpg",  // optional
+     showDescription:                           // optional — fills the "About this show" modal
+       "Murder, She Told is a true crime podcast …",
+     whatChanged: [                             // rewrite per show — these are the actual changes you made
+       "Tightened vocal EQ. Pulled the muddy 250-400 Hz buildup, opened the top end so the consonants land.",
+       "De-essed and tamed mouth noise without dulling the natural texture of your voice.",
+       // 3–5 bullets, plain-language, no em dashes
+     ],
+   },
+   ```
+
+   **Two fields that change for every show:**
+   - `setupParagraph` — your own intro to what they're about to hear. The page automatically appends "Hit play and toggle between the before and after. The difference is most obvious on headphones." after it, so don't write that part.
+   - `whatChanged` — the specific moves you actually made on *their* audio. These will differ every time. Plain language, no em dashes (use periods).
+
+4. **Pick a slug** that doesn't collide with an existing top-level route. Reserved slugs are tracked in `RESERVED_SLUGS` (`api`, `podcasts`, `get-a-free-episode`). Unknown slugs return 404 because the route uses `dynamicParams = false` with `generateStaticParams`.
+
+5. **Build & deploy**. The page is statically generated at build time. Verify:
+   ```bash
+   npm run build
+   ```
+   You should see `/your-slug` listed under the `●` (SSG) section.
+
+### What's templated vs. variable
+
+**Variable per show:** slug, host first name, show name, episode title, setup paragraph, audio files, "what changed" bullets, (optional) thumbnail, (optional) show description.
+
+**Templated:** headline structure, the trailing "Hit play and toggle…" line, credentials block, mailto offer.
+
+The page reuses `BeforeAfterPlayer` from `/podcasts`. Don't fork the player; if it needs a change, change it once and verify both pages still look right.
+
 ## Technologies Used
 
 - **Next.js 14** - React framework with App Router

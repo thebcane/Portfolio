@@ -164,7 +164,8 @@ export function BeforeAfterPlayer({ entries }: BeforeAfterPlayerProps) {
     >
       <audio ref={audioRef} preload="metadata" aria-label={activeEntry.title} />
 
-      {/* Top: thumbnail strip selector */}
+      {/* Top: thumbnail strip selector — hidden when only one entry */}
+      {entries.length > 1 && (
       <div className="border-b border-white/5 p-4 sm:p-5 flex gap-2 sm:gap-3 overflow-x-auto has-scrollbar">
         {entries.map((entry, i) => (
           <button
@@ -197,6 +198,7 @@ export function BeforeAfterPlayer({ entries }: BeforeAfterPlayerProps) {
           </button>
         ))}
       </div>
+      )}
 
       {/* Main 2-column layout: cover left, content right */}
       <AnimatePresence mode="wait">

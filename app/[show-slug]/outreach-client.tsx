@@ -11,10 +11,14 @@ interface OutreachClientProps {
 }
 
 export function OutreachClient({ show }: OutreachClientProps) {
+  const isDemo = Boolean(show.demo);
+
   const entry: AudioCardData = {
     type: "audio",
     id: `outreach-${show.showName}`,
-    title: show.showName,
+    // In demo mode the audio is from one of Brendan's own shows, so the player should
+    // name that show — not the prospect's — to keep the "now playing" honest.
+    title: isDemo ? show.demo!.exampleShowName : show.showName,
     description: show.showDescription ?? "",
     category: show.episodeTitle,
     audioFiles: show.audioFiles,
@@ -36,7 +40,9 @@ export function OutreachClient({ show }: OutreachClientProps) {
             Brendan Cane — Audio Engineer
           </p>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-[1.1]">
-            {show.hostFirstName}, a quick before/after on {show.showName}.
+            {isDemo
+              ? `${show.hostFirstName}, here's the kind of lift I'd bring to ${show.showName}.`
+              : `${show.hostFirstName}, a quick listen on ${show.showName}.`}
           </h1>
         </motion.header>
 
@@ -53,7 +59,20 @@ export function OutreachClient({ show }: OutreachClientProps) {
         </motion.p>
 
         {/* 3. Before / After player */}
-        <BeforeAfterPlayer entries={[entry]} />
+        <div className="space-y-3">
+          {isDemo && (
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70 font-medium"
+            >
+              Example — from {show.demo!.exampleShowName}, one of my own shows
+            </motion.p>
+          )}
+          <BeforeAfterPlayer entries={[entry]} />
+        </div>
 
         {/* 4. What changed */}
         <motion.section
@@ -89,6 +108,9 @@ export function OutreachClient({ show }: OutreachClientProps) {
           transition={{ duration: 0.5 }}
           className="content-card gradient-border rounded-[14px] sm:rounded-[20px] p-5 sm:p-6 text-sm sm:text-base text-foreground/85 font-light leading-relaxed"
         >
+          <h2 className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80 font-medium mb-4">
+            A little about me
+          </h2>
           <p>
             Three years leading audio at Ballen Studios. <strong className="font-semibold text-foreground">500+ episodes</strong> across <strong className="font-semibold text-foreground">MrBallen</strong>, <strong className="font-semibold text-foreground">Wartime Stories</strong>, <strong className="font-semibold text-foreground">Bedtime Stories</strong>, and <strong className="font-semibold text-foreground">Nexpo</strong> — averaging <strong className="font-semibold text-foreground">~10M monthly downloads</strong>, earning a <strong className="font-semibold text-foreground">Golden Globe nomination</strong> and 4 Webby awards.
           </p>

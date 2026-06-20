@@ -27,8 +27,8 @@ export const outreachShows: Record<string, OutreachShow> = {
     setupParagraph:
       "I took the intro from your Christopher Bird episode and gave it a full edit and mix. Same audio, different treatment. The 'before' is your published version, the 'after' is what it could sound like. Not to mention the time you save by not editing yourself.",
     audioFiles: {
-      unmixed: "/audio/Wartime Stories Scene-unmixed.mp3",
-      mixed: "/audio/Wartime Stories Scene-mixed.mp3",
+      unmixed: "/audio/chrisbird intro unmixed.mp3",
+      mixed: "/audio/chrisbird intro - mixed.mp3",
     },
     thumbnail: "/images/murdershetold.png",
     showDescription:
